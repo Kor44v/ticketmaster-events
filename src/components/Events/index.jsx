@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
 
-import useEventsData from "../hooks/useEventsData";
 import EventItem from "./components/EventItems";
+import { useNavigate } from "react-router-dom";
 
 // const events = eventsJSON._embedded.events;
 
-const Events = ({ searchTerm }) => {
-  const { events, isLoading, error } = useEventsData();
+const Events = ({ searchTerm, events }) => {
+  const navigate = useNavigate();
 
   const handleEventItemClick = (id) => {
-    console.log("evento clickeado", id);
+    navigate(`/detail/${id}`);
   };
   const renderEvents = () => {
     let eventsFiltered = events;
-    console.log(searchTerm);
     if (searchTerm.length > 0) {
       eventsFiltered = eventsFiltered.filter((item) =>
         item.name.toLocaleLowerCase().includes(searchTerm)
@@ -31,9 +30,6 @@ const Events = ({ searchTerm }) => {
       />
     ));
   };
-
-  if (error) return <div>Ha Ocurrido un error</div>;
-  if (isLoading) return <div>Cargando resultados</div>;
 
   return (
     <div>
